@@ -33,7 +33,6 @@ namespace YinYang
       e.Graphics.DrawPie(pen, rect, 270, 180);
       e.Graphics.FillPie(brush, rect, 270, -180);
       //Draw right
-      var penWidth = pen.Width;
       e.Graphics.DrawPie(pen, rect, 90, 180);
 
       //Draw top black circle
