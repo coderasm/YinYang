@@ -6,16 +6,18 @@ namespace YinYang
 {
   public partial class Form1 : Form
   {
-    private int largeDiameter = 200;
+    private int clientDimension = 400;
     public Form1()
     {
       InitializeComponent();
-      ClientSize = new Size(largeDiameter, largeDiameter);
+      ClientSize = new Size(clientDimension, clientDimension);
       MinimumSize = ClientSize;
     }
 
     private void onPaint(object sender, PaintEventArgs e)
     {
+      var piesPenWidth = 2F;
+      var largeDiameter = (int)(clientDimension - (piesPenWidth >= 1F ? piesPenWidth / 2 : 0));
       var mediumDiameter = largeDiameter / 2;
       var smallDiameter = mediumDiameter / 3;
       var pen = new Pen(Color.White);
@@ -27,13 +29,19 @@ namespace YinYang
       e.Graphics.FillRectangle(brush, rect);
       pen.Color = Color.Black;
       brush.Color = Color.Black;
+      //save pen width
+      var penWidth = pen.Width;
+      //increse pen width
+      pen.Width = piesPenWidth;
 
       //Largest Parent Circle
-      //Draw left
+      //Draw left hemisphere
       e.Graphics.DrawPie(pen, rect, 270, 180);
       e.Graphics.FillPie(brush, rect, 270, -180);
-      //Draw right
+      //Draw right hemisphere
       e.Graphics.DrawPie(pen, rect, 90, 180);
+      //restore pen width
+      pen.Width = penWidth;
 
       //Draw top black circle
       var upperX = (largeDiameter - mediumDiameter) / 2;
@@ -69,8 +77,8 @@ namespace YinYang
     private void onResize(object sender, System.EventArgs e)
     {
       //Resize drawing to new window size
-      largeDiameter = ClientSize.Height > ClientSize.Width ? ClientSize.Height : ClientSize.Width;
-      ClientSize = new Size(largeDiameter, largeDiameter);
+      clientDimension = ClientSize.Height > ClientSize.Width ? ClientSize.Height : ClientSize.Width;
+      ClientSize = new Size(clientDimension, clientDimension);
       Invalidate();
     }
   }
